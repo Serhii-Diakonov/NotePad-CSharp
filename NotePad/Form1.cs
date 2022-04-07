@@ -5,82 +5,10 @@ namespace NotePad
     public partial class Form1 : Form
     {
 		private List<RichTextBox> textes = new List<RichTextBox>();
-		//private List<TabPage> tabs = new List<TabPage>();
 		private List<string> times = new List<string>();
 		private TabPage curTab;
 		private RichTextBox curTextBox;
-		private string buffer;
 
-		[DllImport("user32")]
-		public static extern int MessageBox(IntPtr handle, string text, string title, int type);
-		public enum MessageBoxType : int
-		{
-			/// <summary>
-			/// Три кнопки - Abort, Retry, Ignore
-			/// </summary>
-			MB_ABORTRETRYIGNORE = 2,
-			/// <summary>
-			/// Три кнопки - Cancel, Try, Continue
-			/// </summary>
-			MB_CANCELTRYCONTINUE = 6,
-			/// <summary>
-			/// Одна кнопка - Ok.
-			/// </summary>
-			MB_OK = 0,
-			/// <summary>
-			/// Две кнопки - Ok, Cancel.
-			/// </summary>
-			MB_OKCANCEL = 1,
-			/// <summary>
-			/// Две кнопки - Retry, Cancel
-			/// </summary>
-			MB_RETRYCANCEL = 5,
-			/// <summary>
-			/// Две кнопки - Yes, No
-			/// </summary>
-			MB_YESNO = 4,
-			/// <summary>
-			///  Три кнопки - Yes, No, Cancel
-			/// </summary>
-			MB_YESNOCANCEL = 3,
-			/// <summary>
-			/// Иконка - восклицание
-			/// </summary>
-			MB_ICONEXCLAMATION = 0x30,
-			/// <summary>
-			/// Иконка - предупреждение
-			/// </summary>
-			MB_ICONWARNING = 0x30,
-			/// <summary>
-			/// Иконка - информация
-			/// </summary>
-			MB_ICONINFORMATION = 0x40,
-			/// <summary>
-			/// Иконка - вопрос
-			/// </summary>
-			MB_ICONQUESTION = 0x20,
-			/// <summary>
-			/// Иконка - стоп
-			/// </summary>
-			MB_ICONSTOP = 0x10,
-			/// <summary>
-			/// Иконка - ошибка
-			/// </summary>
-			MB_ICONERROR = 0x10,
-
-		}
-		public enum MessageBoxReturnType : int
-		{
-			IDABORT = 3,
-			IDCANCEL = 2,
-			IDCONTINUE = 11,
-			IDIGNORE = 5,
-			IDNO = 7,
-			IDOK = 1,
-			IDRETRY = 4,
-			IDTRYAGAIN = 10,
-			IDYES = 6
-		}
         public Form1()
         {
             InitializeComponent();
@@ -97,7 +25,9 @@ namespace NotePad
             tt5.SetToolTip(copyBtn, "Copy");
             ToolTip tt6 = new ToolTip();
             tt6.SetToolTip(pasteBtn, "Paste");
-        }
+			ToolTip tt7 = new ToolTip();
+			tt7.SetToolTip(closeTabBtn, "Close the tab");
+		}
 
 
         private void saveFile(object sender, EventArgs e)
@@ -144,11 +74,6 @@ namespace NotePad
 					sr.Close();
 				}
 			}
-			/*else
-			{
-				MessageBox(Handle, "Opening error", "Cannot open the file!", (int)MessageBoxType.MB_OK
-				| (int)MessageBoxType.MB_ICONERROR);
-			}*/
 		}
 
 		private void cut(object sender, EventArgs e)
@@ -185,6 +110,7 @@ namespace NotePad
 			windowToolStripMenuItem.Enabled = true;
 			tabControl.Enabled = true;
 			bottomPanel.Enabled = true;
+			closeTabBtn.Enabled = true;
 		}
 
 		private void disactivateFunctions()
@@ -199,14 +125,14 @@ namespace NotePad
 			saveAsToolStripMenuItem.Enabled = false;
 			formatToolStripMenuItem.Enabled = false;
 			windowToolStripMenuItem.Enabled = false;
+			closeTabBtn.Enabled = false;
 		}
 
 		private void tabInit(TabPage tab) 
 		{
-			int number = 1 + tabControl.TabCount;/*tabs.Count*/;
+			int number = 1 + tabControl.TabCount;
 			tab.Text = "Untitled-" + number;
 			tab.UseVisualStyleBackColor = true;
-			/*tabs.Add(tab);*/
 			tabControl.SelectedTab = tab;
 			tabControl.Click += new EventHandler(tabIsChosen);
 			curTab = tab;
@@ -228,7 +154,7 @@ namespace NotePad
 		}
 		private void openNewTab()
         {
-			if (/*tabs.Count */tabControl.TabCount == 0) activateFunctions();
+			if (tabControl.TabCount == 0) activateFunctions();
 			tabInit(new TabPage());
 
 			amountLabel.Text = "Amount of symbols: " + curTextBox.Text.Length;
@@ -242,8 +168,8 @@ namespace NotePad
 
 		private void setLastSaveLabel() {
 			lastSaveLabel.Text = "Last save: " + DateTime.Now.ToString("HH:mm:ss");
-			if (times.Count != /*tabs.Count*/tabControl.TabCount) times.Add(DateTime.Now.ToString("HH:mm:ss"));
-			else times[/*tabs*/tabControl.TabPages.IndexOf(curTab)] = DateTime.Now.ToString("HH:mm:ss");
+			if (times.Count != tabControl.TabCount) times.Add(DateTime.Now.ToString("HH:mm:ss"));
+			else times[tabControl.TabPages.IndexOf(curTab)] = DateTime.Now.ToString("HH:mm:ss");
 		}
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -256,7 +182,7 @@ namespace NotePad
 			if (!tabControl.SelectedTab.Equals(curTab))
 			{
 				curTab = tabControl.SelectedTab;
-				int index = /*tabs*/tabControl.TabPages.IndexOf(curTab);
+				int index = tabControl.TabPages.IndexOf(curTab);
 				curTextBox = textes.ElementAt(index);
 				amountLabel.Text = "Amount of symbols: " + curTextBox.Text.Length;
 				lastSaveLabel.Text = "Last save: "+times.ElementAt(index);
@@ -265,7 +191,7 @@ namespace NotePad
 		}
 
 		private void countAmountOfSymbols(object sender, EventArgs e) {
-			int index = /*tabs*/tabControl.TabPages.IndexOf(curTab);
+			int index = tabControl.TabPages.IndexOf(curTab);
 			amountLabel.Text = "Amount of symbols: " + textes.ElementAt(index).Text.Length;
 		}
 
@@ -302,6 +228,33 @@ namespace NotePad
         {
 			FindBox find = new FindBox(ref curTextBox);
 			find.Show();
+        }
+
+		private void askToSave(TabPage tab)
+		{
+			if (tab.Text.Contains("*"))
+				if (MessageBox.Show("You are going to leave the content of the tab unsaved!\nWould you like " +
+					"to save changes in \"" + tab.Text.TrimEnd('*') + "\"?",
+					"Closing without saving", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+					saveFile(null, null);
+		}
+
+		private void closeTabBtn_Click(object sender, EventArgs e)
+        {
+			askToSave(curTab);
+			tabControl.TabPages.Remove(curTab);
+			if (tabControl.TabCount == 0) disactivateFunctions();
+			else curTab = tabControl.SelectedTab;
+		}
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			for(int i=tabControl.TabCount-1; i >= 0; i--)
+            {
+				askToSave(tabControl.TabPages[i]);
+				tabControl.TabPages.RemoveAt(i);
+            }
+			Close();
         }
     }
 }

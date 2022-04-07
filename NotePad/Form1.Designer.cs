@@ -72,6 +72,7 @@
             this.amountPanel = new System.Windows.Forms.Panel();
             this.amountLabel = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
+            this.closeTabBtn = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -163,6 +164,7 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -352,6 +354,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.closeTabBtn);
             this.panel1.Controls.Add(this.saveBtn);
             this.panel1.Controls.Add(this.cutBtn);
             this.panel1.Controls.Add(this.pasteBtn);
@@ -483,6 +486,20 @@
             this.tabControl.Size = new System.Drawing.Size(796, 395);
             this.tabControl.TabIndex = 0;
             // 
+            // closeTabBtn
+            // 
+            this.closeTabBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.closeTabBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("closeTabBtn.BackgroundImage")));
+            this.closeTabBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.closeTabBtn.Enabled = false;
+            this.closeTabBtn.Location = new System.Drawing.Point(772, 4);
+            this.closeTabBtn.Name = "closeTabBtn";
+            this.closeTabBtn.Size = new System.Drawing.Size(15, 15);
+            this.closeTabBtn.TabIndex = 7;
+            this.closeTabBtn.UseVisualStyleBackColor = true;
+            this.closeTabBtn.Click += new System.EventHandler(this.closeTabBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -554,5 +571,6 @@
         private Panel timePanel;
         private Panel amountPanel;
         private Label amountLabel;
+        private Button closeTabBtn;
     }
 }
