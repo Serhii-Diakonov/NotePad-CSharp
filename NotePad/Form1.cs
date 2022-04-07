@@ -5,82 +5,10 @@ namespace NotePad
     public partial class Form1 : Form
     {
 		private List<RichTextBox> textes = new List<RichTextBox>();
-		//private List<TabPage> tabs = new List<TabPage>();
 		private List<string> times = new List<string>();
 		private TabPage curTab;
 		private RichTextBox curTextBox;
-		private string buffer;
-
-		[DllImport("user32")]
-		public static extern int MessageBox(IntPtr handle, string text, string title, int type);
-		public enum MessageBoxType : int
-		{
-			/// <summary>
-			/// Три кнопки - Abort, Retry, Ignore
-			/// </summary>
-			MB_ABORTRETRYIGNORE = 2,
-			/// <summary>
-			/// Три кнопки - Cancel, Try, Continue
-			/// </summary>
-			MB_CANCELTRYCONTINUE = 6,
-			/// <summary>
-			/// Одна кнопка - Ok.
-			/// </summary>
-			MB_OK = 0,
-			/// <summary>
-			/// Две кнопки - Ok, Cancel.
-			/// </summary>
-			MB_OKCANCEL = 1,
-			/// <summary>
-			/// Две кнопки - Retry, Cancel
-			/// </summary>
-			MB_RETRYCANCEL = 5,
-			/// <summary>
-			/// Две кнопки - Yes, No
-			/// </summary>
-			MB_YESNO = 4,
-			/// <summary>
-			///  Три кнопки - Yes, No, Cancel
-			/// </summary>
-			MB_YESNOCANCEL = 3,
-			/// <summary>
-			/// Иконка - восклицание
-			/// </summary>
-			MB_ICONEXCLAMATION = 0x30,
-			/// <summary>
-			/// Иконка - предупреждение
-			/// </summary>
-			MB_ICONWARNING = 0x30,
-			/// <summary>
-			/// Иконка - информация
-			/// </summary>
-			MB_ICONINFORMATION = 0x40,
-			/// <summary>
-			/// Иконка - вопрос
-			/// </summary>
-			MB_ICONQUESTION = 0x20,
-			/// <summary>
-			/// Иконка - стоп
-			/// </summary>
-			MB_ICONSTOP = 0x10,
-			/// <summary>
-			/// Иконка - ошибка
-			/// </summary>
-			MB_ICONERROR = 0x10,
-
-		}
-		public enum MessageBoxReturnType : int
-		{
-			IDABORT = 3,
-			IDCANCEL = 2,
-			IDCONTINUE = 11,
-			IDIGNORE = 5,
-			IDNO = 7,
-			IDOK = 1,
-			IDRETRY = 4,
-			IDTRYAGAIN = 10,
-			IDYES = 6
-		}
+		Size closeImgSize = new Size(8, 8);
         public Form1()
         {
             InitializeComponent();
@@ -97,10 +25,122 @@ namespace NotePad
             tt5.SetToolTip(copyBtn, "Copy");
             ToolTip tt6 = new ToolTip();
             tt6.SetToolTip(pasteBtn, "Paste");
+			ToolTip tt7 = new ToolTip();
+			tt6.SetToolTip(closeAllTabsBtn, "Close all tabs");
+
+			tabControl.DrawItem += tabControl_DrawItem;
+			tabControl.DrawMode = TabDrawMode.OwnerDrawFixed;
+			tabControl.Padding = new Point(16, 3);
+			tabControl.MouseClick += new MouseEventHandler(tabControl_MouseClick);
         }
 
+		private void tabControl_DrawItem(object sender, DrawItemEventArgs e)
+        {
+			try
+			{
+				Image img = new Bitmap(Properties.Resources.closeImg, closeImgSize);
+				Brush titleBrush = new SolidBrush(Color.Black);
+				string title = tabControl.TabPages[e.Index].Text;
 
-        private void saveFile(object sender, EventArgs e)
+				switch (tabControl.Alignment)
+				{
+					case TabAlignment.Left:
+						{
+							Rectangle r = e.Bounds;
+							r = tabControl.GetTabRect(e.Index);
+							r.Offset(2, 2);
+
+							StringFormat drawFormat = new StringFormat();
+							drawFormat.FormatFlags = StringFormatFlags.DirectionVertical;
+
+							//e.Graphics.TranslateTransform(Width, 0);
+							//e.Graphics.RotateTransform(180);
+
+							e.Graphics.DrawString(title, Font, titleBrush, new Point(r.X, r.Y), drawFormat);
+
+							e.Graphics.DrawImage(img, new Point(tabControl.GetTabRect(e.Index).Width/2 - closeImgSize.Width / 4,
+								r.Y + tabControl.GetTabRect(e.Index).Height - 8 - closeImgSize.Height));
+							break;
+						}
+
+					case TabAlignment.Top:
+						{
+							Rectangle r = e.Bounds;
+							r = tabControl.GetTabRect(e.Index);
+							r.Offset(2, 2);
+
+							e.Graphics.DrawString(title, Font, titleBrush, new Point(r.X, r.Y));
+
+							e.Graphics.DrawImage(img, new Point(r.X + tabControl.GetTabRect(e.Index).Width - 8 - closeImgSize.Width,
+								tabControl.GetTabRect(e.Index).Height / 2 - closeImgSize.Height / 4));
+							break;
+						}
+					case TabAlignment.Bottom:
+						{
+							Rectangle r = e.Bounds;
+							r = tabControl.GetTabRect(e.Index);
+							r.Offset(2, 2);
+
+							e.Graphics.DrawString(title, Font, titleBrush, new Point(r.X, r.Y));
+
+							e.Graphics.DrawImage(img, new Point(r.X + tabControl.GetTabRect(e.Index).Width - 8 - closeImgSize.Width, r.Y +
+                                tabControl.GetTabRect(e.Index).Height / 2 - closeImgSize.Height+2));
+							break;
+						}
+					case TabAlignment.Right:
+						{
+							Rectangle r = e.Bounds;
+							r = tabControl.GetTabRect(e.Index);
+							r.Offset(2, 2);
+
+							StringFormat drawFormat = new StringFormat();
+							drawFormat.FormatFlags = StringFormatFlags.DirectionVertical;
+							e.Graphics.DrawString(title, Font, titleBrush, new Point(r.X, r.Y), drawFormat);
+
+							e.Graphics.DrawImage(img, new Point(r.X+tabControl.GetTabRect(e.Index).Width / 2 - closeImgSize.Width / 4,
+								r.Y + tabControl.GetTabRect(e.Index).Height - 8 - closeImgSize.Height));
+							break;
+						}
+				}
+
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("An error has occured: " + ex.Message, "Error during creating closable tab",
+	MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
+		private void tabControl_MouseClick(object sender, MouseEventArgs e)
+		{
+			TabControl tc = (TabControl)sender;
+			Point p = e.Location;
+			int _tabWidth = tabControl.GetTabRect(tc.SelectedIndex).Width - 18;
+			Rectangle r = tabControl.GetTabRect(tc.SelectedIndex);
+			r.Offset(_tabWidth, 5);
+			r.Width = 15;
+			r.Height = 15;
+			if (r.Contains(p))
+			{
+				TabPage tab = tc.TabPages[tc.SelectedIndex];
+				askToSave(tab);
+				tc.TabPages.Remove(tab);
+				if (tc.TabCount == 0)
+				{
+					disactivateFunctions();
+					lastSaveLabel.Text = "Last save:";
+				}
+			}
+		}
+
+		private void askToSave(TabPage tab) {
+			if (tab.Text.Contains("*"))
+				if (MessageBox.Show("You are going to leave the content of the tab unsaved!\nWould you like " +
+                    "to save changes in \""+tab.Text.TrimEnd('*')+"\"?",
+					"Closing without saving", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+					saveFile(null, null);
+		}
+		private void saveFile(object sender, EventArgs e)
         {
             {
 				SaveFileDialog save = new SaveFileDialog();
@@ -144,11 +184,6 @@ namespace NotePad
 					sr.Close();
 				}
 			}
-			/*else
-			{
-				MessageBox(Handle, "Opening error", "Cannot open the file!", (int)MessageBoxType.MB_OK
-				| (int)MessageBoxType.MB_ICONERROR);
-			}*/
 		}
 
 		private void cut(object sender, EventArgs e)
@@ -183,8 +218,9 @@ namespace NotePad
 			saveAsToolStripMenuItem.Enabled = true;
 			formatToolStripMenuItem.Enabled = true;
 			windowToolStripMenuItem.Enabled = true;
-			tabControl.Enabled = true;
 			bottomPanel.Enabled = true;
+			tabControl.Enabled = true;
+			closeAllTabsBtn.Enabled = true;
 		}
 
 		private void disactivateFunctions()
@@ -199,14 +235,15 @@ namespace NotePad
 			saveAsToolStripMenuItem.Enabled = false;
 			formatToolStripMenuItem.Enabled = false;
 			windowToolStripMenuItem.Enabled = false;
+			closeAllTabsBtn.Enabled = false;
+			bottomPanel.Enabled = false;
+			tabControl.Enabled = false;
 		}
 
 		private void tabInit(TabPage tab) 
 		{
-			int number = 1 + tabControl.TabCount;/*tabs.Count*/;
+			int number = 1 + tabControl.TabCount;
 			tab.Text = "Untitled-" + number;
-			tab.UseVisualStyleBackColor = true;
-			/*tabs.Add(tab);*/
 			tabControl.SelectedTab = tab;
 			tabControl.Click += new EventHandler(tabIsChosen);
 			curTab = tab;
@@ -228,7 +265,7 @@ namespace NotePad
 		}
 		private void openNewTab()
         {
-			if (/*tabs.Count */tabControl.TabCount == 0) activateFunctions();
+			if (tabControl.TabCount == 0) activateFunctions();
 			tabInit(new TabPage());
 
 			amountLabel.Text = "Amount of symbols: " + curTextBox.Text.Length;
@@ -242,8 +279,8 @@ namespace NotePad
 
 		private void setLastSaveLabel() {
 			lastSaveLabel.Text = "Last save: " + DateTime.Now.ToString("HH:mm:ss");
-			if (times.Count != /*tabs.Count*/tabControl.TabCount) times.Add(DateTime.Now.ToString("HH:mm:ss"));
-			else times[/*tabs*/tabControl.TabPages.IndexOf(curTab)] = DateTime.Now.ToString("HH:mm:ss");
+			if (times.Count !=tabControl.TabCount) times.Add(DateTime.Now.ToString("HH:mm:ss"));
+			else times[tabControl.TabPages.IndexOf(curTab)] = DateTime.Now.ToString("HH:mm:ss");
 		}
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -256,7 +293,7 @@ namespace NotePad
 			if (!tabControl.SelectedTab.Equals(curTab))
 			{
 				curTab = tabControl.SelectedTab;
-				int index = /*tabs*/tabControl.TabPages.IndexOf(curTab);
+				int index = tabControl.TabPages.IndexOf(curTab);
 				curTextBox = textes.ElementAt(index);
 				amountLabel.Text = "Amount of symbols: " + curTextBox.Text.Length;
 				lastSaveLabel.Text = "Last save: "+times.ElementAt(index);
@@ -265,7 +302,7 @@ namespace NotePad
 		}
 
 		private void countAmountOfSymbols(object sender, EventArgs e) {
-			int index = /*tabs*/tabControl.TabPages.IndexOf(curTab);
+			int index = tabControl.TabPages.IndexOf(curTab);
 			amountLabel.Text = "Amount of symbols: " + textes.ElementAt(index).Text.Length;
 		}
 
@@ -302,6 +339,73 @@ namespace NotePad
         {
 			FindBox find = new FindBox(ref curTextBox);
 			find.Show();
+        }
+
+        private void singlelineTabsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			tabControl.Multiline = false;
+			multilineTabsToolStripMenuItem1.Checked = false;
+        }
+
+        private void multilineTabsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+			singlelineTabsToolStripMenuItem.Checked = false;
+			tabControl.Multiline = true;
+        }
+
+        private void topToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			rightToolStripMenuItem.Checked = false;
+			leftToolStripMenuItem.Checked = false;
+			bottomToolStripMenuItem.Checked = false;
+			tabControl.Alignment = TabAlignment.Top;
+        }
+
+        private void rightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			topToolStripMenuItem.Checked = false;
+			leftToolStripMenuItem.Checked = false;
+			bottomToolStripMenuItem.Checked = false;
+			tabControl.Alignment = TabAlignment.Right;
+		}
+
+        private void bottomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			rightToolStripMenuItem.Checked = false;
+			leftToolStripMenuItem.Checked = false;
+			topToolStripMenuItem.Checked = false;
+			tabControl.Alignment = TabAlignment.Bottom;
+		}
+
+        private void leftToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			rightToolStripMenuItem.Checked = false;
+			topToolStripMenuItem.Checked = false;
+			bottomToolStripMenuItem.Checked = false;
+			tabControl.Alignment = TabAlignment.Left;
+		}
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			closeAllTabs();
+			Close();
+        }
+
+		private void closeAllTabs() {
+				for (int i = tabControl.TabCount - 1; i >= 0; i--)
+				{
+					askToSave(tabControl.TabPages[i]);
+				if (i != 0)
+					tabControl.TabPages.RemoveAt(i);
+				else tabControl.TabPages.Clear();
+				}
+			//disactivateFunctions();
+			lastSaveLabel.Text = "Last save:"+tabControl.TabCount;
+		}
+
+		private void closeAllTabsBtn_Click(object sender, EventArgs e)
+        {
+			closeAllTabs();
         }
     }
 }

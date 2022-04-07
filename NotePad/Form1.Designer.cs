@@ -51,27 +51,37 @@
             this.fontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.arrangeIconsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cascadeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.chooseTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.aligmentStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.topToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bottomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.leftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.tileHorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tileVertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.multilineTabsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.multilineTabsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.singlelineTabsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutProgrammToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newTabBtn = new System.Windows.Forms.Button();
             this.openBtn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.closeAllTabsBtn = new System.Windows.Forms.Button();
             this.saveBtn = new System.Windows.Forms.Button();
             this.cutBtn = new System.Windows.Forms.Button();
             this.pasteBtn = new System.Windows.Forms.Button();
             this.copyBtn = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.tabControl = new System.Windows.Forms.TabControl();
             this.bottomPanel = new System.Windows.Forms.Panel();
             this.lastSaveLabel = new System.Windows.Forms.Label();
             this.timePanel = new System.Windows.Forms.Panel();
             this.amountPanel = new System.Windows.Forms.Panel();
             this.amountLabel = new System.Windows.Forms.Label();
-            this.tabControl = new System.Windows.Forms.TabControl();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -89,7 +99,7 @@
             this.infoToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(965, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -163,6 +173,7 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -271,32 +282,87 @@
             // windowToolStripMenuItem
             // 
             this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.arrangeIconsToolStripMenuItem,
-            this.cascadeToolStripMenuItem,
-            this.toolStripSeparator5,
+            this.chooseTabToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.aligmentStripMenuItem,
+            this.toolStripSeparator6,
             this.tileHorToolStripMenuItem,
-            this.tileVertToolStripMenuItem});
+            this.tileVertToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.multilineTabsToolStripMenuItem});
             this.windowToolStripMenuItem.Enabled = false;
             this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
             this.windowToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
             this.windowToolStripMenuItem.Text = "&Window";
             // 
-            // arrangeIconsToolStripMenuItem
+            // chooseTabToolStripMenuItem
             // 
-            this.arrangeIconsToolStripMenuItem.Name = "arrangeIconsToolStripMenuItem";
-            this.arrangeIconsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.arrangeIconsToolStripMenuItem.Text = "Arrange Icons";
+            this.chooseTabToolStripMenuItem.Name = "chooseTabToolStripMenuItem";
+            this.chooseTabToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.chooseTabToolStripMenuItem.Text = "Choose tab";
             // 
-            // cascadeToolStripMenuItem
+            // toolStripSeparator1
             // 
-            this.cascadeToolStripMenuItem.Name = "cascadeToolStripMenuItem";
-            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.cascadeToolStripMenuItem.Text = "Cascade";
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(147, 6);
             // 
-            // toolStripSeparator5
+            // aligmentStripMenuItem
             // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(147, 6);
+            this.aligmentStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.topToolStripMenuItem,
+            this.rightToolStripMenuItem,
+            this.bottomToolStripMenuItem,
+            this.leftToolStripMenuItem});
+            this.aligmentStripMenuItem.Name = "aligmentStripMenuItem";
+            this.aligmentStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.aligmentStripMenuItem.Text = "Align tabs";
+            // 
+            // topToolStripMenuItem
+            // 
+            this.topToolStripMenuItem.AutoToolTip = true;
+            this.topToolStripMenuItem.Checked = true;
+            this.topToolStripMenuItem.CheckOnClick = true;
+            this.topToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.topToolStripMenuItem.Name = "topToolStripMenuItem";
+            this.topToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.topToolStripMenuItem.Text = "Top";
+            this.topToolStripMenuItem.ToolTipText = "Align tabs to the top";
+            this.topToolStripMenuItem.Click += new System.EventHandler(this.topToolStripMenuItem_Click);
+            // 
+            // rightToolStripMenuItem
+            // 
+            this.rightToolStripMenuItem.AutoToolTip = true;
+            this.rightToolStripMenuItem.CheckOnClick = true;
+            this.rightToolStripMenuItem.Name = "rightToolStripMenuItem";
+            this.rightToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.rightToolStripMenuItem.Text = "Right";
+            this.rightToolStripMenuItem.ToolTipText = "Align tabs to the right";
+            this.rightToolStripMenuItem.Click += new System.EventHandler(this.rightToolStripMenuItem_Click);
+            // 
+            // bottomToolStripMenuItem
+            // 
+            this.bottomToolStripMenuItem.AutoToolTip = true;
+            this.bottomToolStripMenuItem.CheckOnClick = true;
+            this.bottomToolStripMenuItem.Name = "bottomToolStripMenuItem";
+            this.bottomToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.bottomToolStripMenuItem.Text = "Bottom";
+            this.bottomToolStripMenuItem.ToolTipText = "Align tabs to the bottom";
+            this.bottomToolStripMenuItem.Click += new System.EventHandler(this.bottomToolStripMenuItem_Click);
+            // 
+            // leftToolStripMenuItem
+            // 
+            this.leftToolStripMenuItem.AutoToolTip = true;
+            this.leftToolStripMenuItem.CheckOnClick = true;
+            this.leftToolStripMenuItem.Name = "leftToolStripMenuItem";
+            this.leftToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.leftToolStripMenuItem.Text = "Left";
+            this.leftToolStripMenuItem.ToolTipText = "Align tabs to the left";
+            this.leftToolStripMenuItem.Click += new System.EventHandler(this.leftToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(147, 6);
             // 
             // tileHorToolStripMenuItem
             // 
@@ -309,6 +375,42 @@
             this.tileVertToolStripMenuItem.Name = "tileVertToolStripMenuItem";
             this.tileVertToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.tileVertToolStripMenuItem.Text = "Tile Vertical";
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(147, 6);
+            // 
+            // multilineTabsToolStripMenuItem
+            // 
+            this.multilineTabsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.multilineTabsToolStripMenuItem1,
+            this.singlelineTabsToolStripMenuItem});
+            this.multilineTabsToolStripMenuItem.Name = "multilineTabsToolStripMenuItem";
+            this.multilineTabsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.multilineTabsToolStripMenuItem.Text = "Multiline tabs";
+            // 
+            // multilineTabsToolStripMenuItem1
+            // 
+            this.multilineTabsToolStripMenuItem1.AutoToolTip = true;
+            this.multilineTabsToolStripMenuItem1.CheckOnClick = true;
+            this.multilineTabsToolStripMenuItem1.Name = "multilineTabsToolStripMenuItem1";
+            this.multilineTabsToolStripMenuItem1.Size = new System.Drawing.Size(150, 22);
+            this.multilineTabsToolStripMenuItem1.Text = "Multiline tabs";
+            this.multilineTabsToolStripMenuItem1.ToolTipText = "Arrange all tabs in the multiple lines";
+            this.multilineTabsToolStripMenuItem1.Click += new System.EventHandler(this.multilineTabsToolStripMenuItem1_Click);
+            // 
+            // singlelineTabsToolStripMenuItem
+            // 
+            this.singlelineTabsToolStripMenuItem.AutoToolTip = true;
+            this.singlelineTabsToolStripMenuItem.Checked = true;
+            this.singlelineTabsToolStripMenuItem.CheckOnClick = true;
+            this.singlelineTabsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.singlelineTabsToolStripMenuItem.Name = "singlelineTabsToolStripMenuItem";
+            this.singlelineTabsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.singlelineTabsToolStripMenuItem.Text = "Singleline tabs";
+            this.singlelineTabsToolStripMenuItem.ToolTipText = "Arrange all tabs in the single line";
+            this.singlelineTabsToolStripMenuItem.Click += new System.EventHandler(this.singlelineTabsToolStripMenuItem_Click);
             // 
             // infoToolStripMenuItem
             // 
@@ -352,6 +454,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.closeAllTabsBtn);
             this.panel1.Controls.Add(this.saveBtn);
             this.panel1.Controls.Add(this.cutBtn);
             this.panel1.Controls.Add(this.pasteBtn);
@@ -361,8 +464,22 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(800, 27);
+            this.panel1.Size = new System.Drawing.Size(965, 27);
             this.panel1.TabIndex = 3;
+            // 
+            // closeAllTabsBtn
+            // 
+            this.closeAllTabsBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.closeAllTabsBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("closeAllTabsBtn.BackgroundImage")));
+            this.closeAllTabsBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.closeAllTabsBtn.Enabled = false;
+            this.closeAllTabsBtn.Location = new System.Drawing.Point(945, 5);
+            this.closeAllTabsBtn.Name = "closeAllTabsBtn";
+            this.closeAllTabsBtn.Size = new System.Drawing.Size(15, 15);
+            this.closeAllTabsBtn.TabIndex = 7;
+            this.closeAllTabsBtn.UseVisualStyleBackColor = true;
+            this.closeAllTabsBtn.Click += new System.EventHandler(this.closeAllTabsBtn_Click);
             // 
             // saveBtn
             // 
@@ -416,14 +533,24 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.Silver;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel2.Controls.Add(this.bottomPanel);
             this.panel2.Controls.Add(this.tabControl);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 51);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(800, 399);
+            this.panel2.Size = new System.Drawing.Size(965, 370);
             this.panel2.TabIndex = 4;
             this.panel2.Visible = false;
+            // 
+            // tabControl
+            // 
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl.Enabled = false;
+            this.tabControl.HotTrack = true;
+            this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(961, 366);
+            this.tabControl.TabIndex = 0;
             // 
             // bottomPanel
             // 
@@ -433,9 +560,9 @@
             this.bottomPanel.Controls.Add(this.amountPanel);
             this.bottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.bottomPanel.Enabled = false;
-            this.bottomPanel.Location = new System.Drawing.Point(0, 366);
+            this.bottomPanel.Location = new System.Drawing.Point(0, 421);
             this.bottomPanel.Name = "bottomPanel";
-            this.bottomPanel.Size = new System.Drawing.Size(796, 29);
+            this.bottomPanel.Size = new System.Drawing.Size(965, 29);
             this.bottomPanel.TabIndex = 1;
             // 
             // lastSaveLabel
@@ -473,24 +600,15 @@
             this.amountLabel.TabIndex = 0;
             this.amountLabel.Text = "Amount of symbols: 0";
             // 
-            // tabControl
-            // 
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl.Enabled = false;
-            this.tabControl.Location = new System.Drawing.Point(0, 0);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(796, 395);
-            this.tabControl.TabIndex = 0;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(965, 450);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.bottomPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
@@ -533,8 +651,8 @@
         private ToolStripMenuItem fontToolStripMenuItem;
         private ToolStripMenuItem colorToolStripMenuItem;
         private ToolStripMenuItem windowToolStripMenuItem;
-        private ToolStripMenuItem arrangeIconsToolStripMenuItem;
-        private ToolStripMenuItem cascadeToolStripMenuItem;
+        private ToolStripMenuItem chooseTabToolStripMenuItem;
+        private ToolStripMenuItem aligmentStripMenuItem;
         private ToolStripSeparator toolStripSeparator5;
         private ToolStripMenuItem tileHorToolStripMenuItem;
         private ToolStripMenuItem tileVertToolStripMenuItem;
@@ -554,5 +672,15 @@
         private Panel timePanel;
         private Panel amountPanel;
         private Label amountLabel;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem topToolStripMenuItem;
+        private ToolStripMenuItem rightToolStripMenuItem;
+        private ToolStripMenuItem bottomToolStripMenuItem;
+        private ToolStripMenuItem leftToolStripMenuItem;
+        private ToolStripMenuItem multilineTabsToolStripMenuItem;
+        private ToolStripMenuItem multilineTabsToolStripMenuItem1;
+        private ToolStripMenuItem singlelineTabsToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator6;
+        private Button closeAllTabsBtn;
     }
 }
